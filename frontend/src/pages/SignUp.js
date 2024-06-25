@@ -20,9 +20,11 @@ const SignUp = () => {
     phoneNumber: '',
     email: '',
     password: '',
-    otp: '',
+    phoneOtp: '',
+    emailOtp: '',
   });
-  const [isOtpSent, setIsOtpSent] = useState(false);
+  const [isPhoneOtpSent, setIsPhoneOtpSent] = useState(false);
+  const [isEmailOtpSent, setIsEmailOtpSent] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const navigate = useNavigate();
@@ -32,15 +34,28 @@ const SignUp = () => {
     setForm({ ...form, [name]: value });
   };
 
-  const handleOtpSend = async () => {
+  const handlePhoneOtpSend = async () => {
     try {
       setIsLoading(true);
-      // Mock sending OTP
+      // Mock sending phone OTP
       await new Promise((resolve) => setTimeout(resolve, 1000));
-      setIsOtpSent(true);
+      setIsPhoneOtpSent(true);
       setIsLoading(false);
     } catch (err) {
-      setError('Failed to send OTP. Please try again.');
+      setError('Failed to send phone OTP. Please try again.');
+      setIsLoading(false);
+    }
+  };
+
+  const handleEmailOtpSend = async () => {
+    try {
+      setIsLoading(true);
+      // Mock sending email OTP
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      setIsEmailOtpSent(true);
+      setIsLoading(false);
+    } catch (err) {
+      setError('Failed to send email OTP. Please try again.');
       setIsLoading(false);
     }
   };
@@ -94,6 +109,29 @@ const SignUp = () => {
                 fullWidth
                 required
               />
+              {!isPhoneOtpSent && (
+                <Button
+                  onClick={handlePhoneOtpSend}
+                  variant="contained"
+                  color="primary"
+                  fullWidth
+                  disabled={isLoading}
+                  sx={{ mt: 2 }}
+                >
+                  {isLoading ? <CircularProgress size={24} /> : 'Send Phone OTP'}
+                </Button>
+              )}
+              {isPhoneOtpSent && (
+                <TextField
+                  label="Phone OTP"
+                  name="phoneOtp"
+                  value={form.phoneOtp}
+                  onChange={handleChange}
+                  fullWidth
+                  required
+                  sx={{ mt: 2 }}
+                />
+              )}
             </Grid>
             <Grid item xs={12}>
               <TextField
@@ -104,19 +142,30 @@ const SignUp = () => {
                 fullWidth
                 required
               />
-            </Grid>
-            {isOtpSent && (
-              <Grid item xs={12}>
+              {!isEmailOtpSent && (
+                <Button
+                  onClick={handleEmailOtpSend}
+                  variant="contained"
+                  color="primary"
+                  fullWidth
+                  disabled={isLoading}
+                  sx={{ mt: 2 }}
+                >
+                  {isLoading ? <CircularProgress size={24} /> : 'Send Email OTP'}
+                </Button>
+              )}
+              {isEmailOtpSent && (
                 <TextField
-                  label="OTP"
-                  name="otp"
-                  value={form.otp}
+                  label="Email OTP"
+                  name="emailOtp"
+                  value={form.emailOtp}
                   onChange={handleChange}
                   fullWidth
                   required
+                  sx={{ mt: 2 }}
                 />
-              </Grid>
-            )}
+              )}
+            </Grid>
             <Grid item xs={12}>
               <TextField
                 label="Password"
@@ -134,27 +183,15 @@ const SignUp = () => {
               </Grid>
             )}
             <Grid item xs={12}>
-              {!isOtpSent ? (
-                <Button
-                  onClick={handleOtpSend}
-                  variant="contained"
-                  color="primary"
-                  fullWidth
-                  disabled={isLoading}
-                >
-                  {isLoading ? <CircularProgress size={24} /> : 'Send OTP'}
-                </Button>
-              ) : (
-                <Button
-                  type="submit"
-                  variant="contained"
-                  color="primary"
-                  fullWidth
-                  disabled={isLoading}
-                >
-                  {isLoading ? <CircularProgress size={24} /> : 'Sign Up'}
-                </Button>
-              )}
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                fullWidth
+                disabled={isLoading}
+              >
+                {isLoading ? <CircularProgress size={24} /> : 'Sign Up'}
+              </Button>
             </Grid>
           </Grid>
         </form>
