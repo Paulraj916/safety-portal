@@ -1,10 +1,13 @@
 // src/pages/SolutionProvidersHomePage.js
 
 import React from 'react';
-import { Button, Container, Grid, Typography, Box, AppBar, Toolbar } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
+import { Button, Container, Grid, Typography, Box, AppBar, Toolbar, Fab } from '@mui/material';
+import ChatIcon from '@mui/icons-material/Chat';
 
 const SolutionProvidersHomePage = () => {
+  const navigate = useNavigate();
+  
   const problems = [
     'Physical Harassment',
     'Mental Harassment',
@@ -27,6 +30,10 @@ const SolutionProvidersHomePage = () => {
     'Intimate Partner Violence',
     'Rape and Sexual Assault',
   ];
+
+  const handleChatButtonClick = () => {
+    navigate('/solution-providers/chat');
+  };
 
   return (
     <Container>
@@ -64,6 +71,18 @@ const SolutionProvidersHomePage = () => {
           ))}
         </Grid>
       </Box>
+      <Fab
+        color="primary"
+        aria-label="chat"
+        style={{
+          position: 'fixed',
+          bottom: '20px',
+          right: '20px',
+        }}
+        onClick={handleChatButtonClick}
+      >
+        <ChatIcon />
+      </Fab>
     </Container>
   );
 };
